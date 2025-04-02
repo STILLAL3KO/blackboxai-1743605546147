@@ -1,29 +1,250 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Monkey Flappy Game</title>
+    <title>ALEKO'S PLAY HUB | Home</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Orbitron', sans-serif;
+            background: url('https://images.pexels.com/photos/163036/mario-luigi-yoschi-figures-163036.jpeg') no-repeat center center fixed;
+            background-size: cover;
+        }
+        .nav-link {
+            position: relative;
+        }
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #f97316;
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover:after {
+            width: 100%;
+        }
+        .weapon-card {
+            transition: all 0.3s ease;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid #374151;
+        }
+        .weapon-card:hover {
+            transform: translateY(-5px);
+            border-color: #f97316;
+            box-shadow: 0 10px 25px rgba(249, 115, 22, 0.3);
+        }
+        .soldier-card {
+            background: linear-gradient(135deg, rgba(31, 41, 55, 0.8), rgba(17, 24, 39, 0.9));
+        }
+        .typewriter {
+            overflow: hidden;
+            border-right: .15em solid orange;
+            white-space: nowrap;
+            margin: 0 auto;
+            letter-spacing: .15em;
+            animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
+        }
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: orange; }
+        }
+    </style>
 </head>
-<body class="bg-blue-100 font-['Poppins']">
-    <div class="flex flex-col items-center justify-center min-h-screen">
-        <h1 class="text-4xl font-bold text-amber-600 mb-4">Flappy Monkey</h1>
-        <div class="relative">
-            <canvas id="gameCanvas" width="320" height="480" class="border-4 border-amber-800 rounded-lg shadow-xl"></canvas>
-            <div id="startScreen" class="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50 text-white">
-                <h2 class="text-2xl font-bold mb-4">Press SPACE to Start</h2>
-                <p class="mb-6">Avoid the trees!</p>
-                <div class="text-xl">
-                    <span>High Score: </span>
-                    <span id="highScoreDisplay">0</span>
+<body class="text-white min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-black/80 backdrop-blur-md fixed w-full z-50">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="text-2xl font-bold text-orange-500">
+                    <span class="text-white">ALEKO'S</span> PLAY HUB
                 </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="index.html" class="nav-link text-orange-500">HOME</a>
+                    <a href="soldier.html" class="nav-link">CUSTOMIZE SOLDIER</a>
+                    <a href="weapon.html" class="nav-link">DESIGN WEAPON</a>
+                    <a href="#" class="nav-link">MISSIONS</a>
+                    <a href="#" class="nav-link">LEADERBOARDS</a>
+                </div>
+                <button class="md:hidden text-white">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="relative h-screen flex items-center justify-center px-4 pt-20">
+        <div class="absolute inset-0 bg-black/50"></div>
+        <div class="relative z-10 text-center max-w-4xl px-4">
+            <h1 class="text-4xl md:text-6xl font-bold mb-6 text-orange-500">
+                FORGE YOUR <span class="text-white">COMBAT LEGACY</span>
+            </h1>
+            <p class="text-lg md:text-xl mb-8 text-gray-300 typewriter">
+                DESIGN. EQUIP. DOMINATE.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="soldier.html" class="px-8 py-3 bg-orange-600 hover:bg-orange-700 rounded-lg font-bold transition-all transform hover:scale-105">
+                    <i class="fas fa-user-shield mr-2"></i> CUSTOMIZE SOLDIER
+                </a>
+                <a href="weapon.html" class="px-8 py-3 bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-lg font-bold transition-all transform hover:scale-105">
+                    <i class="fas fa-gun mr-2"></i> DESIGN WEAPON
+                </a>
             </div>
         </div>
     </div>
-    <script src="game.js"></script>
+
+    <!-- Featured Section -->
+    <section class="py-16 bg-gradient-to-b from-gray-900 to-black">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold mb-12 text-center">
+                <span class="text-orange-500">FEATURED</span> COMBAT EQUIPMENT
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Weapon 1 -->
+                <div class="weapon-card rounded-lg overflow-hidden p-6">
+                    <div class="flex justify-center mb-4">
+                        <img src="https://images.pexels.com/photos/6052970/pexels-photo-6052970.jpeg" alt="Assault Rifle" class="h-40 object-contain">
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">TAC-56 ASSAULT RIFLE</h3>
+                    <p class="text-gray-400 mb-4">High damage output with excellent range and accuracy.</p>
+                    <div class="flex justify-between text-sm text-gray-500">
+                        <span><i class="fas fa-bullseye mr-1"></i> 72 Damage</span>
+                        <span><i class="fas fa-tachometer-alt mr-1"></i> 750 RPM</span>
+                        <span><i class="fas fa-ruler mr-1"></i> 38m Range</span>
+                    </div>
+                </div>
+
+                <!-- Weapon 2 -->
+                <div class="weapon-card rounded-lg overflow-hidden p-6">
+                    <div class="flex justify-center mb-4">
+                        <img src="https://images.pexels.com/photos/6052971/pexels-photo-6052971.jpeg" alt="Sniper Rifle" class="h-40 object-contain">
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">SP-X 80 SNIPER</h3>
+                    <p class="text-gray-400 mb-4">One-shot kill potential with exceptional bullet velocity.</p>
+                    <div class="flex justify-between text-sm text-gray-500">
+                        <span><i class="fas fa-bullseye mr-1"></i> 95 Damage</span>
+                        <span><i class="fas fa-tachometer-alt mr-1"></i> 52 RPM</span>
+                        <span><i class="fas fa-ruler mr-1"></i> 80m+ Range</span>
+                    </div>
+                </div>
+
+                <!-- Weapon 3 -->
+                <div class="weapon-card rounded-lg overflow-hidden p-6">
+                    <div class="flex justify-center mb-4">
+                        <img src="https://images.pexels.com/photos/6052973/pexels-photo-6052973.jpeg" alt="SMG" class="h-40 object-contain">
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">FSS HURRICANE SMG</h3>
+                    <p class="text-gray-400 mb-4">Devastating close-quarters performance with rapid fire rate.</p>
+                    <div class="flex justify-between text-sm text-gray-500">
+                        <span><i class="fas fa-bullseye mr-1"></i> 48 Damage</span>
+                        <span><i class="fas fa-tachometer-alt mr-1"></i> 920 RPM</span>
+                        <span><i class="fas fa-ruler mr-1"></i> 12m Range</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Soldier Showcase -->
+    <section class="py-16 bg-black">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold mb-12 text-center">
+                <span class="text-orange-500">ELITE</span> SOLDIER TEMPLATES
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Soldier 1 -->
+                <div class="soldier-card rounded-lg overflow-hidden border border-gray-800">
+                    <div class="h-48 bg-cover bg-center" style="background-image: url('https://images.pexels.com/photos/3571743/pexels-photo-3571743.jpeg')"></div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">GHOST</h3>
+                        <p class="text-gray-400 mb-4">Covert operations specialist with silenced weapons.</p>
+                        <div class="flex space-x-2">
+                            <span class="px-2 py-1 bg-gray-800 rounded text-xs">STEALTH</span>
+                            <span class="px-2 py-1 bg-gray-800 rounded text-xs">RECON</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Soldier 2 -->
+                <div class="soldier-card rounded-lg overflow-hidden border border-gray-800">
+                    <div class="h-48 bg-cover bg-center" style="background-image: url('https://images.pexels.com/photos/3571745/pexels-photo-3571745.jpeg')"></div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">DEMOLITION</h3>
+                        <p class="text-gray-400 mb-4">Heavy weapons expert with explosive resistance.</p>
+                        <div class="flex space-x-2">
+                            <span class="px-2 py-1 bg-gray-800 rounded text-xs">ASSAULT</span>
+                            <span class="px-2 py-1 bg-gray-800 rounded text-xs">EXPLOSIVES</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Soldier 3 -->
+                <div class="soldier-card rounded-lg overflow-hidden border border-gray-800">
+                    <div class="h-48 bg-cover bg-center" style="background-image: url('https://images.pexels.com/photos/3571747/pexels-photo-3571747.jpeg')"></div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">MEDIC</h3>
+                        <p class="text-gray-400 mb-4">Combat medic with team healing capabilities.</p>
+                        <div class="flex space-x-2">
+                            <span class="px-2 py-1 bg-gray-800 rounded text-xs">SUPPORT</span>
+                            <span class="px-2 py-1 bg-gray-800 rounded text-xs">HEALING</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Soldier 4 -->
+                <div class="soldier-card rounded-lg overflow-hidden border border-gray-800">
+                    <div class="h-48 bg-cover bg-center" style="background-image: url('https://images.pexels.com/photos/3571749/pexels-photo-3571749.jpeg')"></div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">SNIPER</h3>
+                        <p class="text-gray-400 mb-4">Long-range marksman with enhanced scope visibility.</p>
+                        <div class="flex space-x-2">
+                            <span class="px-2 py-1 bg-gray-800 rounded text-xs">RECON</span>
+                            <span class="px-2 py-1 bg-gray-800 rounded text-xs">PRECISION</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black/80 py-8 border-t border-gray-800">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="text-xl font-bold text-orange-500 mb-4 md:mb-0">
+                    ALEKO'S PLAY HUB
+                </div>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-orange-500"><i class="fab fa-discord text-2xl"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-orange-500"><i class="fab fa-twitter text-2xl"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-orange-500"><i class="fab fa-youtube text-2xl"></i></a>
+                </div>
+            </div>
+            <div class="mt-8 text-center text-gray-500 text-sm">
+                <p>© 2023 ALEKO'S PLAY HUB. All rights reserved. | Call of Duty is a registered trademark of Activision.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Typewriter effect
+        const typewriter = document.querySelector('.typewriter');
+        setTimeout(() => {
+            typewriter.style.animation = 'none';
+            setTimeout(() => {
+                typewriter.style.animation = 'typing 3.5s steps(40, end), blink-caret .75s step-end infinite';
+            }, 50);
+        }, 3500);
+    </script>
 </body>
 </html>
