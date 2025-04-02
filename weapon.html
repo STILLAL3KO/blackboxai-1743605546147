@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>ALEKO'S PLAY HUB | Design Weapon</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Orbitron', sans-serif;
+            background: url('https://images.pexels.com/photos/163036/mario-luigi-yoschi-figures-163036.jpeg') no-repeat center center fixed;
+            background-size: cover;
+        }
+        .weapon-preview {
+            perspective: 1000px;
+            transform-style: preserve-3d;
+            transition: transform 0.5s ease;
+        }
+        .customization-panel {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            border-left: 1px solid #374151;
+        }
+        .weapon-base {
+            filter: drop-shadow(0 0 10px rgba(249, 115, 22, 0.5));
+        }
+        .attachment-slot {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(249, 115, 22, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .attachment-slot:hover {
+            background: rgba(249, 115, 22, 0.6);
+            transform: scale(1.1);
+        }
+        .attachment-slot i {
+            font-size: 20px;
+            color: white;
+        }
+        .option-tab {
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+        .option-tab.active {
+            border-bottom-color: #f97316;
+            color: #f97316;
+        }
+        .option-card {
+            transition: all 0.3s ease;
+            background: rgba(31, 41, 55, 0.6);
+            border: 1px solid #374151;
+        }
+        .option-card:hover {
+            transform: scale(1.05);
+            border-color: #f97316;
+            box-shadow: 0 0 15px rgba(249, 115, 22, 0.5);
+        }
+        .option-card.selected {
+            border-color: #f97316;
+            background: rgba(249, 115, 22, 0.2);
+        }
+        .stats-bar {
+            height: 6px;
+            background: #374151;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        .stats-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #f97316, #ef4444);
+        }
+    </style>
+</head>
+<body class="text-white min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-black/80 backdrop-blur-md fixed w-full z-50">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="text-2xl font-bold text-orange-500">
+                    <span class="text-white">ALEKO'S</span> PLAY HUB
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="index.html" class="nav-link">HOME</a>
+                    <a href="soldier.html" class="nav-link">CUSTOMIZE SOLDIER</a>
+                    <a href="weapon.html" class="nav-link text-orange-500">DESIGN WEAPON</a>
+                    <a href="#" class="nav-link">MISSIONS</a>
+                </div>
+                <button class="md:hidden text-white">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-4 pt-24 pb-12">
+        <h1 class="text-4xl font-bold mb-2 text-orange-500">WEAPON DESIGN STUDIO</h1>
+        <p class="text-gray-400 mb-8">Craft your perfect weapon with modular attachments and custom finishes</p>
+
+        <div class="flex flex-col lg:flex-row gap-8">
+            <!-- Weapon Preview -->
+            <div class="w-full lg:w-2/3">
+                <div class="weapon-preview bg-gray-900/80 rounded-lg p-8 h-[600px] flex items-center justify-center relative overflow-hidden">
+                    <div id="weapon-model" class="relative w-full h-full">
+                        <!-- Base Weapon -->
+                        <img src="https://images.pexels.com/photos/6052970/pexels-photo-6052970.jpeg" 
+                             class="absolute inset-0 w-full h-full object-contain weapon-base" id="base-weapon">
+                        
+                        <!-- Attachment Points -->
+                        <div class="attachment-slot" style="top: 30%; left: 20%;" onclick="openAttachmentMenu('optic')">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <div class="attachment-slot" style="top: 50%; left: 30%;" onclick="openAttachmentMenu('muzzle')">
+                            <i class="fas fa-bullseye"></i>
+                        </div>
+                        <div class="attachment-slot" style="top: 60%; left: 70%;" onclick="openAttachmentMenu('grip')">
+                            <i class="fas fa-hand-paper"></i>
+                        </div>
+                        <div class="attachment-slot" style="top: 30%; left: 80%;" onclick="openAttachmentMenu('magazine')">
+                            <i class="fas fa-box-open"></i>
+                        </div>
+                    </div>
+                    <div class="absolute bottom-4 left-0 right-0 flex justify-center space-x-4">
+                        <button class="px-4 py-2 bg-gray-800 rounded-lg" onclick="rotateModel('left')">
+                            <i class="fas fa-undo"></i> Rotate Left
+                        </button>
+                        <button class="px-4 py-2 bg-gray-800 rounded-lg" onclick="rotateModel('right')">
+                            <i class="fas fa-redo"></i> Rotate Right
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Customization Panel -->
+            <div class="w-full lg:w-1/3 customization-panel rounded-lg p-6">
+                <div class="flex border-b border-gray-700 mb-6">
+                    <button class="option-tab active px-4 py-2" onclick="switchTab('weapons')">WEAPONS</button>
+                    <button class="option-tab px-4 py-2" onclick="switchTab('attachments')">ATTACHMENTS</button>
+                    <button class="option-tab px-4 py-2" onclick="switchTab('camos')">CAMOS</button>
+                </div>
+
+                <!-- Weapons Tab -->
+                <div id="weapons-tab" class="tab-content">
+                    <h3 class="text-xl font-bold mb-4">SELECT WEAPON TYPE</h3>
+                    <div class="grid grid-cols-2 gap-4 mb-6">
+                        <div class="option-card selected p-2 rounded" onclick="selectWeapon('assault')">
+                            <img src="https://images.pexels.com/photos/6052970/pexels-photo-6052970.jpeg" 
+                                 class="w-full h-24 object-contain rounded mb-2">
+                            <p class="text-center">ASSAULT RIFLE</p>
+                        </div>
+                        <div class="option-card p-2 rounded" onclick="selectWeapon('sniper')">
+                            <img src="https://images.pexels.com/photos/6052971/pexels-photo-6052971.jpeg" 
+                                 class="w-full h-24 object-contain rounded mb-2">
+                            <p class="text-center">SNIPER RIFLE</p>
+                        </div>
+                        <div class="option-card p-2 rounded" onclick="selectWeapon('smg')">
+                            <img src="https://images.pexels.com/photos/6052973/pexels-photo-6052973.jpeg" 
+                                 class="w-full h-24 object-contain rounded mb-2">
+                            <p class="text-center">SMG</p>
+                        </div>
+                        <div class="option-card p-2 rounded" onclick="selectWeapon('shotgun')">
+                            <img src="https://images.pexels.com/photos/6052975/pexels-photo-6052975.jpeg" 
+                                 class="w-full h-24 object-contain rounded mb-2">
+                            <p class="text-center">SHOTGUN</p>
+                        </div>
+                    </div>
+
+                    <h3 class="text-xl font-bold mb-2">WEAPON STATS</h3>
+                    <div class="space-y-3 mb-6">
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span>Damage</span>
+                                <span>72</span>
+                            </div>
+                            <div class="stats-bar">
+                                <div class="stats-bar-fill" style="width: 72%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span>Accuracy</span>
+                                <span>65</span>
+                            </div>
+                            <div class="stats-bar">
+                                <div class="stats-bar-fill" style="width: 65%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span>Range</span>
+                                <span>58</span>
+                            </div>
+                            <div class="stats-bar">
+                                <div class="stats-bar-fill" style="width: 58%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span>Fire Rate</span>
+                                <span>81</span>
+                            </div>
+                            <div class="stats-bar">
+                                <div class="stats-bar-fill" style="width: 81%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Attachments Tab -->
+                <div id="attachments-tab" class="tab-content hidden">
+                    <h3 class="text-xl font-bold mb-4" id="attachment-category">OPTICS</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="option-card p-2 rounded" onclick="selectAttachment('red_dot')">
+                            <img src="https://images.pexels.com/photos/6052977/pexels-photo-6052977.jpeg" 
+                                 class="w-full h-24 object-contain rounded mb-2">
+                            <p class="text-center">RED DOT</p>
+                        </div>
+                        <div class="option-card p-2 rounded" onclick="selectAttachment('holo')">
+                            <img src="https://images.pexels.com/photos/6052979/pexels-photo-6052979.jpeg" 
+                                 class="w-full h-24 object-contain rounded mb-2">
+                            <p class="text-center">HOLO</p>
+                        </div>
+                        <div class="option-card p-2 rounded" onclick="selectAttachment('acog')">
+                            <img src="https://images.pexels.com/photos/6052981/pexels-photo-6052981.jpeg" 
+                                 class="w-full h-24 object-contain rounded mb-2">
+                            <p class="text-center">ACOG</p>
+                        </div>
+                        <div class="option-card p-2 rounded" onclick="selectAttachment('sniper_scope')">
+                            <img src="https://images.pexels.com/photos/6052983/pexels-photo-6052983.jpeg" 
+                                 class="w-full h-24 object-contain rounded mb-2">
+                            <p class="text-center">SNIPER SCOPE</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Camos Tab -->
+                <div id="camos-tab" class="tab-content hidden">
+                    <h3 class="text-xl font-bold mb-4">WEAPON CAMOUFLAGE</h3>
+                    <div class="grid grid-cols-3 gap-4">
+                        <div class="option-card p-2 rounded" onclick="selectCamo('woodland')">
+                            <div class="w-full h-20 bg-green-800 rounded" style="background-image: url('https://images.pexels.com/photos/3571749/pexels-photo-3571749.jpeg'); background-size: cover;"></div>
+                            <p class="text-center mt-2">WOODLAND</p>
+                        </div>
+                        <div class="option-card p-2 rounded" onclick="selectCamo('digital')">
+                            <div class="w-full h-20 bg-gray-800 rounded" style="background-image: url('https://images.pexels.com/photos/3571751/pexels-photo-3571751.jpeg'); background-size: cover;"></div>
+                            <p class="text-center mt-2">DIGITAL</p>
+                        </div>
+                        <div class="option-card p-2 rounded" onclick="selectCamo('desert')">
+                            <div class="w-full h-20 bg-yellow-800 rounded" style="background-image: url('https://images.pexels.com/photos/3571753/pexels-photo-3571753.jpeg'); background-size: cover;"></div>
+                            <p class="text-center mt-2">DESERT</p>
+                        </div>
+                        <div class="option-card p-2 rounded" onclick="selectCamo('urban')">
+                            <div class="w-full h-20 bg-gray-400 rounded" style="background-image: url('https://images.pexels.com/photos/3571755/pexels-photo-3571755.jpeg'); background-size: cover;"></div>
+                            <p class="text-center mt-2">URBAN</p>
+                        </div>
+                        <div class="option-card p-2 rounded" onclick="selectCamo('gold')">
+                            <div class="w-full h-20 bg-yellow-500 rounded"></div>
+                            <p class="text-center mt-2">GOLD</p>
+                        </div>
+                        <div class="option-card p-2 rounded" onclick="selectCamo('dragon')">
+                            <div class="w-full h-20 bg-red-800 rounded" style="background-image: url('https://images.pexels.com/photos/3571757/pexels-photo-3571757.jpeg'); background-size: cover;"></div>
+                            <p class="text-center mt-2">DRAGON</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8">
+                    <button class="w-full py-3 bg-orange-600 hover:bg-orange-700 rounded-lg font-bold" onclick="saveWeapon()">
+                        <i class="fas fa-save mr-2"></i> SAVE WEAPON
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Current weapon state
+        const weaponState = {
+            type: 'assault',
+            attachments: {
+                optic: null,
+                muzzle: null,
+                grip: null,
+                magazine: null
+            },
+            camo: 'default'
+        };
+
+        // Tab switching
+        function switchTab(tabName) {
+            // Update active tab
+            document.querySelectorAll('.option-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Show selected tab content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.add('hidden');
+            });
+            document.getElementById(`${tabName}-tab`).classList.remove('hidden');
+        }
+
+        // Weapon selection
+        function selectWeapon(type) {
+            // Remove selected class from all weapons
+            document.querySelectorAll('#weapons-tab .option-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked weapon
+            event.target.closest('.option-card').classList.add('selected');
+
+            // Update weapon state
+            weaponState.type = type;
+
+            // Update preview
+            const baseWeapon = document.getElementById('base-weapon');
+            if (type === 'assault') {
+                baseWeapon.src = 'https://images.pexels.com/photos/6052970/pexels-photo-6052970.jpeg';
+            } else if (type === 'sniper') {
+                baseWeapon.src = 'https://images.pexels.com/photos/6052971/pexels-photo-6052971.jpeg';
+            } else if (type === 'smg') {
+                baseWeapon.src = 'https://images.pexels.com/photos/6052973/pexels-photo-6052973.jpeg';
+            } else if (type === 'shotgun') {
+                baseWeapon.src = 'https://images.pexels.com/photos/6052975/pexels-photo-6052975.jpeg';
+            }
+        }
+
+        // Open attachment menu
+        function openAttachmentMenu(slot) {
+            // Switch to attachments tab
+            switchTab('attachments');
+            
+            // Update category title
+            const categoryTitle = document.getElementById('attachment-category');
+            if (slot === 'optic') {
+                categoryTitle.textContent = 'OPTICS';
+            } else if (slot === 'muzzle') {
+                categoryTitle.textContent = 'MUZZLE DEVICES';
+            } else if (slot === 'grip') {
+                categoryTitle.textContent = 'GRIPS';
+            } else if (slot === 'magazine') {
+                categoryTitle.textContent = 'MAGAZINES';
+            }
+            
+            // Store current slot for when an attachment is selected
+            weaponState.currentSlot = slot;
+        }
+
+        // Select attachment
+        function selectAttachment(attachment) {
+            // Update weapon state
+            weaponState.attachments[weaponState.currentSlot] = attachment;
+            
+            // In a real app, we would update the weapon preview with the selected attachment
+            alert(`${attachment} ${weaponState.currentSlot} attached!`);
+        }
+
+        // Select camo
+        function selectCamo(camo) {
+            // Remove selected class from all camos
+            document.querySelectorAll('#camos-tab .option-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked camo
+            event.target.closest('.option-card').classList.add('selected');
+
+            // Update weapon state
+            weaponState.camo = camo;
+            
+            // In a real app, we would update the weapon preview with the selected camo
+            alert(`${camo} camo applied!`);
+        }
+
+        // Model rotation
+        let rotation = 0;
+        function rotateModel(direction) {
+            const weaponModel = document.getElementById('weapon-model');
+            rotation += direction === 'left' ? -15 : 15;
+            weaponModel.style.transform = `rotateY(${rotation}deg)`;
+        }
+
+        // Save weapon
+        function saveWeapon() {
+            alert('Weapon configuration saved!');
+            // In a real app, this would send data to server
+            console.log('Saved weapon state:', weaponState);
+        }
+    </script>
+</body>
+</html>
