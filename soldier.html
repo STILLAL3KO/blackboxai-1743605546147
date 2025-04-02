@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>ALEKO'S PLAY HUB | Customize Soldier</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Orbitron', sans-serif;
+            background: url('https://images.pexels.com/photos/163036/mario-luigi-yoschi-figures-163036.jpeg') no-repeat center center fixed;
+            background-size: cover;
+        }
+        .soldier-preview {
+            perspective: 1000px;
+            transform-style: preserve-3d;
+            transition: transform 0.5s ease;
+        }
+        .customization-panel {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            border-left: 1px solid #374151;
+        }
+        .option-tab {
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+        .option-tab.active {
+            border-bottom-color: #f97316;
+            color: #f97316;
+        }
+        .option-card {
+            transition: all 0.3s ease;
+            background: rgba(31, 41, 55, 0.6);
+            border: 1px solid #374151;
+        }
+        .option-card:hover {
+            transform: scale(1.05);
+            border-color: #f97316;
+            box-shadow: 0 0 15px rgba(249, 115, 22, 0.5);
+        }
+        .option-card.selected {
+            border-color: #f97316;
+            background: rgba(249, 115, 22, 0.2);
+        }
+        .color-option {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        .color-option:hover {
+            transform: scale(1.2);
+        }
+        .color-option.selected {
+            transform: scale(1.3);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+    </style>
+</head>
+<body class="text-white min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-black/80 backdrop-blur-md fixed w-full z-50">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="text-2xl font-bold text-orange-500">
+                    <span class="text-white">ALEKO'S</span> PLAY HUB
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="index.html" class="nav-link">HOME</a>
+                    <a href="soldier.html" class="nav-link text-orange-500">CUSTOMIZE SOLDIER</a>
+                    <a href="weapon.html" class="nav-link">DESIGN WEAPON</a>
+                    <a href="#" class="nav-link">MISSIONS</a>
+                </div>
+                <button class="md:hidden text-white">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-4 pt-24 pb-12">
+        <h1 class="text-4xl font-bold mb-2 text-orange-500">SOLDIER CUSTOMIZATION</h1>
+        <p class="text-gray-400 mb-8">Design your ultimate combat operator with advanced customization options</p>
+
+        <div class="flex flex-col lg:flex-row gap-8">
+            <!-- Soldier Preview -->
+            <div class="w-full lg:w-2/3">
+                <div class="soldier-preview bg-gray-900/80 rounded-lg p-8 h-[600px] flex items-center justify-center relative overflow-hidden">
+                    <div id="soldier-model" class="relative w-full h-full">
+                        <!-- Base Soldier -->
+                        <img src="https://images.pexels.com/photos/3571743/pexels-photo-3571743.jpeg" 
+                             class="absolute inset-0 w-full h-full object-contain" id="base-soldier">
+                        <!-- Face Overlay -->
+                        <img src="https://images.pexels.com/photos/3571745/pexels-photo-3571745.jpeg" 
+                             class="absolute inset-0 w-full h-full object-contain opacity-0" id="face-overlay">
+                        <!-- Gear Overlay -->
+                        <img src="https://images.pexels.com/photos/3571747/pexels-photo-3571747.jpeg" 
+                             class="absolute inset-0 w-full h-full object-contain opacity-0" id="gear-overlay">
+                        <!-- Uniform Overlay -->
+                        <div id="uniform-overlay" class="absolute inset-0 mix-blend-overlay opacity-70"></div>
+                    </div>
+                    <div class="absolute bottom-4 left-0 right-0 flex justify-center space-x-4">
+                        <button class="px-4 py-2 bg-gray-800 rounded-lg" onclick="rotateModel('left')">
+                            <i class="fas fa-undo"></i> Rotate Left
+                        </button>
+                        <button class="px-4 py-2 bg-gray-800 rounded-lg" onclick="rotateModel('right')">
+                            <i class="fas fa-redo"></i> Rotate Right
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Customization Panel -->
+            <div class="w-full lg:w-1/3 customization-panel rounded-lg p-6">
+                <div class="flex border-b border-gray-700 mb-6">
+                    <button class="option-tab active px-4 py-2" onclick="switchTab('faces')">FACES</button>
+                    <button class="option-tab px-4 py-2" onclick="switchTab('uniforms')">UNIFORMS</button>
+                    <button class="option-tab px-4 py-2" onclick="switchTab('gear')">GEAR</button>
+                    <button class="option-tab px-4 py-2" onclick="switchTab('patches')">PATCHES</button>
+                </div>
+
+                <!-- Faces Tab -->
+                <div id="faces-tab" class="tab-content">
+                    <h3 class="text-xl font-bold mb-4">SELECT FACE</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                        <div class="option-card p-2 rounded" onclick="selectOption('face', 'option1')">
+                            <img src="https://images.pexels.com/photos/3571743/pexels-photo-3571743.jpeg" 
+                                 class="w-full h-24 object-cover rounded mb-2">
+                            <p class="text-center">GHOST</p>
+                        </div>
+                        <div class="option-card p-2 rounded" onclick="selectOption('face', 'option2')">
+                            <img src="https://images.pexels.com/photos/3571745/pexels-photo-3571745.jpeg" 
+                                 class="w-full h-24 object-cover rounded mb-2">
+                            <p class="text-center">DEMO</p>
+                        </div>
+                        <div class="option-card p-2 rounded" onclick="selectOption('face', 'option3')">
+                            <img src="https://images.pexels.com/photos/3571747/pexels-photo-3571747.jpeg" 
+                                 class="w-full h-24 object-cover rounded mb-2">
+                            <p class="text-center">MEDIC</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Uniforms Tab -->
+                <div id="uniforms-tab" class="tab-content hidden">
+                    <h3 class="text-xl font-bold mb-4">SELECT UNIFORM</h3>
+                    <div class="grid grid-cols-2 gap-4 mb-6">
+                        <div class="option-card p-2 rounded" onclick="selectOption('uniform', 'woodland')">
+                            <div class="w-full h-24 bg-green-800 mb-2" style="background-image: url('https://images.pexels.com/photos/3571749/pexels-photo-3571749.jpeg'); background-size: cover;"></div>
+                            <p class="text-center">WOODLAND</p>
+                        </div>
+                        <div class="option-card p-2 rounded" onclick="selectOption('uniform', 'desert')">
+                            <div class="w-full h-24 bg-yellow-800 mb-2" style="background-image: url('https://images.pexels.com/photos/3571751/pexels-photo-3571751.jpeg'); background-size: cover;"></div>
+                            <p class="text-center">DESERT</p>
+                        </div>
+                    </div>
+
+                    <h3 class="text-xl font-bold mb-4">UNIFORM COLOR</h3>
+                    <div class="flex flex-wrap gap-3">
+                        <div class="color-option bg-green-900 selected" onclick="selectColor('green-900')"></div>
+                        <div class="color-option bg-gray-800" onclick="selectColor('gray-800')"></div>
+                        <div class="color-option bg-blue-900" onclick="selectColor('blue-900')"></div>
+                        <div class="color-option bg-black" onclick="selectColor('black')"></div>
+                        <div class="color-option bg-yellow-800" onclick="selectColor('yellow-800')"></div>
+                        <div class="color-option bg-red-900" onclick="selectColor('red-900')"></div>
+                    </div>
+                </div>
+
+                <!-- Gear Tab -->
+                <div id="gear-tab" class="tab-content hidden">
+                    <h3 class="text-xl font-bold mb-4">SELECT GEAR</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="option-card p-2 rounded" onclick="selectOption('gear', 'light')">
+                            <img src="https://images.pexels.com/photos/3571753/pexels-photo-3571753.jpeg" 
+                                 class="w-full h-24 object-cover rounded mb-2">
+                            <p class="text-center">LIGHT</p>
+                        </div>
+                        <div class="option-card p-2 rounded" onclick="selectOption('gear', 'heavy')">
+                            <img src="https://images.pexels.com/photos/3571755/pexels-photo-3571755.jpeg" 
+                                 class="w-full h-24 object-cover rounded mb-2">
+                            <p class="text-center">HEAVY</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Patches Tab -->
+                <div id="patches-tab" class="tab-content hidden">
+                    <h3 class="text-xl font-bold mb-4">SELECT PATCH</h3>
+                    <div class="grid grid-cols-3 gap-4">
+                        <div class="option-card p-2 rounded" onclick="selectOption('patch', 'skull')">
+                            <img src="https://images.pexels.com/photos/3571757/pexels-photo-3571757.jpeg" 
+                                 class="w-full h-16 object-contain rounded mb-2">
+                        </div>
+                        <div class="option-card p-2 rounded" onclick="selectOption('patch', 'eagle')">
+                            <img src="https://images.pexels.com/photos/3571759/pexels-photo-3571759.jpeg" 
+                                 class="w-full h-16 object-contain rounded mb-2">
+                        </div>
+                        <div class="option-card p-2 rounded" onclick="selectOption('patch', 'shield')">
+                            <img src="https://images.pexels.com/photos/3571761/pexels-photo-3571761.jpeg" 
+                                 class="w-full h-16 object-contain rounded mb-2">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8">
+                    <button class="w-full py-3 bg-orange-600 hover:bg-orange-700 rounded-lg font-bold" onclick="saveSoldier()">
+                        <i class="fas fa-save mr-2"></i> SAVE SOLDIER
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab switching
+        function switchTab(tabName) {
+            // Update active tab
+            document.querySelectorAll('.option-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Show selected tab content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.add('hidden');
+            });
+            document.getElementById(`${tabName}-tab`).classList.remove('hidden');
+        }
+
+        // Option selection
+        function selectOption(type, option) {
+            // Remove selected class from all options
+            document.querySelectorAll('.option-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked option
+            event.target.closest('.option-card').classList.add('selected');
+
+            // Update preview
+            if (type === 'face') {
+                const faceOverlay = document.getElementById('face-overlay');
+                faceOverlay.style.opacity = '1';
+                // In a real app, we would change the actual face image here
+            } else if (type === 'gear') {
+                const gearOverlay = document.getElementById('gear-overlay');
+                gearOverlay.style.opacity = '1';
+                // In a real app, we would change the actual gear image here
+            }
+        }
+
+        // Color selection
+        function selectColor(color) {
+            // Remove selected class from all colors
+            document.querySelectorAll('.color-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked color
+            event.target.classList.add('selected');
+
+            // Update uniform color
+            const uniformOverlay = document.getElementById('uniform-overlay');
+            uniformOverlay.className = `absolute inset-0 mix-blend-overlay opacity-70 bg-${color}`;
+        }
+
+        // Model rotation
+        let rotation = 0;
+        function rotateModel(direction) {
+            const soldierModel = document.getElementById('soldier-model');
+            rotation += direction === 'left' ? -15 : 15;
+            soldierModel.style.transform = `rotateY(${rotation}deg)`;
+        }
+
+        // Save soldier
+        function saveSoldier() {
+            alert('Soldier customization saved!');
+            // In a real app, this would send data to server
+        }
+    </script>
+</body>
+</html>
