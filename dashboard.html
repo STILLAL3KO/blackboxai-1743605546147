@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XIN1ST3R - Feed</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="favicon.ico">
+    <style>
+        body {
+            background-color: #0f0f13;
+        }
+        .navbar {
+            background: rgba(15, 15, 19, 0.8);
+            backdrop-filter: blur(10px);
+        }
+        .post-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .btn-primary {
+            background: linear-gradient(to right, #ff6b6b, #ff8e8e);
+        }
+        .story-ring {
+            background: linear-gradient(to right, #ff6b6b, #ff8e8e);
+        }
+    </style>
+</head>
+<body class="text-white font-['Poppins']">
+    <!-- Navbar -->
+    <nav class="navbar fixed top-0 left-0 right-0 z-50 border-b border-gray-800 py-3 px-4">
+        <div class="max-w-6xl mx-auto flex items-center justify-between">
+            <div class="flex items-center">
+                <img src="favicon.ico" alt="XIN1ST3R" class="h-8 w-8 mr-2 rounded-full">
+                <h1 class="text-xl font-bold text-pink-500">XIN1ST3R</h1>
+            </div>
+            <div class="flex items-center space-x-4">
+                <a href="#" class="p-2 rounded-full hover:bg-gray-800">
+                    <i class="fas fa-home text-lg"></i>
+                </a>
+                <a href="#" class="p-2 rounded-full hover:bg-gray-800">
+                    <i class="fas fa-search text-lg"></i>
+                </a>
+                <a href="#" class="p-2 rounded-full hover:bg-gray-800">
+                    <i class="fas fa-plus-circle text-lg"></i>
+                </a>
+                <a href="#" class="p-2 rounded-full hover:bg-gray-800">
+                    <i class="fas fa-heart text-lg"></i>
+                </a>
+                <a href="#" class="p-2 rounded-full hover:bg-gray-800">
+                    <img src="https://images.pexels.com/photos/20787/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=1600" 
+                         class="h-6 w-6 rounded-full object-cover">
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-2xl mx-auto pt-16 pb-20 px-4">
+        <!-- Stories -->
+        <div class="flex space-x-4 overflow-x-auto py-4 mb-6 scrollbar-hide">
+            <!-- Story items would go here -->
+            <div class="flex flex-col items-center space-y-1 flex-shrink-0">
+                <div class="h-16 w-16 rounded-full p-0.5 story-ring">
+                    <div class="bg-gray-900 h-full w-full rounded-full p-0.5">
+                        <img src="https://images.pexels.com/photos/20787/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=1600" 
+                             class="h-full w-full rounded-full object-cover">
+                    </div>
+                </div>
+                <span class="text-xs">Your Story</span>
+            </div>
+            <!-- More stories -->
+            <div class="flex flex-col items-center space-y-1 flex-shrink-0">
+                <div class="h-16 w-16 rounded-full p-0.5 story-ring">
+                    <div class="bg-gray-900 h-full w-full rounded-full p-0.5">
+                        <img src="https://images.pexels.com/photos/127028/pexels-photo-127028.jpeg?auto=compress&cs=tinysrgb&w=1600" 
+                             class="h-full w-full rounded-full object-cover">
+                    </div>
+                </div>
+                <span class="text-xs">WhiskerWatcher</span>
+            </div>
+            <div class="flex flex-col items-center space-y-1 flex-shrink-0">
+                <div class="h-16 w-16 rounded-full p-0.5 story-ring">
+                    <div class="bg-gray-900 h-full w-full rounded-full p-0.5">
+                        <img src="https://images.pexels.com/photos/774731/pexels-photo-774731.jpeg?auto=compress&cs=tinysrgb&w=1600" 
+                             class="h-full w-full rounded-full object-cover">
+                    </div>
+                </div>
+                <span class="text-xs">TabbyLover</span>
+            </div>
+        </div>
+
+        <!-- Create Post -->
+        <div class="post-card rounded-xl p-4 mb-6">
+            <div class="flex items-center space-x-3 mb-4">
+                <img src="https://images.pexels.com/photos/20787/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=1600" 
+                     class="h-10 w-10 rounded-full object-cover">
+                <input type="text" placeholder="What's on your mind?" 
+                       class="flex-1 bg-gray-800 rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-pink-500">
+            </div>
+            <div class="flex justify-between border-t border-gray-800 pt-3">
+                <button class="flex items-center space-x-1 text-sm text-gray-400 hover:text-white">
+                    <i class="fas fa-image text-pink-500"></i>
+                    <span>Photo</span>
+                </button>
+                <button class="flex items-center space-x-1 text-sm text-gray-400 hover:text-white">
+                    <i class="fas fa-video text-pink-500"></i>
+                    <span>Video</span>
+                </button>
+                <button class="flex items-center space-x-1 text-sm text-gray-400 hover:text-white">
+                    <i class="fas fa-smile text-pink-500"></i>
+                    <span>Feeling</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Posts Feed -->
+        <div class="space-y-6">
+            <!-- Sample Post 1 -->
+            <div class="post-card rounded-xl">
+                <div class="p-4">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <img src="https://images.pexels.com/photos/20787/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=1600" 
+                                 class="h-10 w-10 rounded-full object-cover">
+                            <div>
+                                <h3 class="font-semibold">CatLover42</h3>
+                                <p class="text-xs text-gray-400">2 hours ago</p>
+                            </div>
+                        </div>
+                        <button class="text-gray-400 hover:text-white">
+                            <i class="fas fa-ellipsis-h"></i>
+                        </button>
+                    </div>
+                    <p class="mt-3">Just adopted this beautiful kitten today! 🐱❤️ #catsofinstagram</p>
+                </div>
+                <img src="https://images.pexels.com/photos/1170986/pexels-photo-1170986.jpeg" 
+                     class="w-full object-cover max-h-96">
+                <div class="p-4">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="flex items-center space-x-4">
+                            <button class="flex items-center space-x-1">
+                                <i class="fas fa-heart text-pink-500"></i>
+                                <span class="text-sm">1.2k</span>
+                            </button>
+                            <button class="flex items-center space-x-1">
+                                <i class="fas fa-comment"></i>
+                                <span class="text-sm">42</span>
+                            </button>
+                            <button class="flex items-center space-x-1">
+                                <i class="fas fa-share"></i>
+                                <span class="text-sm">Share</span>
+                            </button>
+                        </div>
+                        <button>
+                            <i class="fas fa-bookmark"></i>
+                        </button>
+                    </div>
+                    <div class="text-sm text-gray-400">
+                        <span class="font-semibold text-white">CatLover42</span> and 
+                        <span class="font-semibold text-white">1,245 others</span> liked this
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sample Post 2 -->
+            <div class="post-card rounded-xl">
+                <div class="p-4">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <img src="https://images.pexels.com/photos/127028/pexels-photo-127028.jpeg?auto=compress&cs=tinysrgb&w=1600" 
+                                 class="h-10 w-10 rounded-full object-cover">
+                            <div>
+                                <h3 class="font-semibold">WhiskerWatcher</h3>
+                                <p class="text-xs text-gray-400">5 hours ago</p>
+                            </div>
+                        </div>
+                        <button class="text-gray-400 hover:text-white">
+                            <i class="fas fa-ellipsis-h"></i>
+                        </button>
+                    </div>
+                    <p class="mt-3">My cat just discovered the magic of cardboard boxes. Endless entertainment! 😸 #catlife</p>
+                </div>
+                <img src="https://images.pexels.com/photos/127028/pexels-photo-127028.jpeg?auto=compress&cs=tinysrgb&w=1600" 
+                     class="w-full object-cover max-h-96">
+                <div class="p-4">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="flex items-center space-x-4">
+                            <button class="flex items-center space-x-1">
+                                <i class="fas fa-heart"></i>
+                                <span class="text-sm">876</span>
+                            </button>
+                            <button class="flex items-center space-x-1">
+                                <i class="fas fa-comment"></i>
+                                <span class="text-sm">31</span>
+                            </button>
+                            <button class="flex items-center space-x-1">
+                                <i class="fas fa-share"></i>
+                                <span class="text-sm">Share</span>
+                            </button>
+                        </div>
+                        <button>
+                            <i class="fas fa-bookmark"></i>
+                        </button>
+                    </div>
+                    <div class="text-sm text-gray-400">
+                        <span class="font-semibold text-white">WhiskerWatcher</span> and 
+                        <span class="font-semibold text-white">875 others</span> liked this
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="fixed bottom-0 left-0 right-0 bg-gray-900 border-t border-gray-800 py-3 px-6 flex justify-around">
+        <a href="#" class="text-pink-500">
+            <i class="fas fa-home text-xl"></i>
+        </a>
+        <a href="#" class="text-gray-400 hover:text-white">
+            <i class="fas fa-search text-xl"></i>
+        </a>
+        <a href="#" class="text-gray-400 hover:text-white">
+            <i class="fas fa-plus-square text-xl"></i>
+        </a>
+        <a href="#" class="text-gray-400 hover:text-white">
+            <i class="fas fa-heart text-xl"></i>
+        </a>
+        <a href="#" class="text-gray-400 hover:text-white">
+            <i class="fas fa-user text-xl"></i>
+        </a>
+    </nav>
+
+    <script>
+        // Simple interaction for demonstration
+        document.querySelectorAll('.post-card button i.fa-heart').forEach(heart => {
+            heart.addEventListener('click', function() {
+                this.classList.toggle('text-pink-500');
+                this.classList.toggle('text-gray-400');
+            });
+        });
+    </script>
+</body>
+</html>
