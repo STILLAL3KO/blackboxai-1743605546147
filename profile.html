@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XIN1ST3R - Profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="favicon.ico">
+    <style>
+        body {
+            background-color: #0f0f13;
+        }
+        .profile-header {
+            background: linear-gradient(to right, #ff6b6b, #ff8e8e);
+        }
+        .stats-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="text-white font-['Poppins']">
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 bg-gray-900 border-b border-gray-800 py-3 px-4 z-50">
+        <div class="max-w-6xl mx-auto flex items-center justify-between">
+            <a href="dashboard.html" class="text-xl font-bold text-pink-500">
+                <i class="fas fa-arrow-left mr-2"></i>XIN1ST3R
+            </a>
+            <button class="text-gray-400 hover:text-white">
+                <i class="fas fa-ellipsis-h text-xl"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Profile Header -->
+    <div class="pt-16 pb-6 px-4">
+        <div class="max-w-2xl mx-auto">
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center space-x-4">
+                    <div class="h-24 w-24 rounded-full border-4 border-pink-500 overflow-hidden">
+                        <img src="https://images.pexels.com/photos/20787/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=1600" 
+                             class="h-full w-full object-cover">
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold">CatLover42</h1>
+                        <p class="text-sm text-gray-400">Cat enthusiast since 2018</p>
+                    </div>
+                </div>
+                <button class="btn-primary px-6 py-2 rounded-lg font-semibold">
+                    Follow
+                </button>
+            </div>
+
+            <div class="mb-6">
+                <p class="text-sm">🐱 Cat mom to 3 adorable furballs | 📍New York | ✨ Sharing my cat adventures daily</p>
+            </div>
+
+            <div class="flex justify-between mb-6">
+                <div class="stats-card rounded-lg p-4 text-center flex-1 mx-1">
+                    <div class="text-xl font-bold">1,245</div>
+                    <div class="text-xs text-gray-400">Posts</div>
+                </div>
+                <div class="stats-card rounded-lg p-4 text-center flex-1 mx-1">
+                    <div class="text-xl font-bold">12.8k</div>
+                    <div class="text-xs text-gray-400">Followers</div>
+                </div>
+                <div class="stats-card rounded-lg p-4 text-center flex-1 mx-1">
+                    <div class="text-xl font-bold">342</div>
+                    <div class="text-xs text-gray-400">Following</div>
+                </div>
+            </div>
+
+            <div class="flex space-x-2 mb-6">
+                <button class="btn-primary flex-1 py-2 rounded-lg font-semibold">
+                    <i class="fas fa-paw mr-2"></i>Message
+                </button>
+                <button class="bg-gray-800 flex-1 py-2 rounded-lg font-semibold border border-gray-700">
+                    <i class="fas fa-user-plus mr-2"></i>Follow
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Tabs -->
+    <div class="border-t border-gray-800 pt-2">
+        <div class="max-w-2xl mx-auto flex justify-around">
+            <button class="text-pink-500 border-t-2 border-pink-500 pt-2 px-4">
+                <i class="fas fa-th-large"></i>
+            </button>
+            <button class="text-gray-400 pt-2 px-4">
+                <i class="fas fa-tag"></i>
+            </button>
+            <button class="text-gray-400 pt-2 px-4">
+                <i class="fas fa-bookmark"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Profile Posts Grid -->
+    <div class="grid grid-cols-3 gap-1 mt-2">
+        <!-- Sample posts -->
+        <div class="aspect-square bg-gray-800 relative group overflow-hidden">
+            <img src="https://images.pexels.com/photos/1170986/pexels-photo-1170986.jpeg" 
+                 class="w-full h-full object-cover group-hover:opacity-50 transition-opacity">
+            <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                <div class="flex items-center space-x-4">
+                    <span class="text-white font-semibold">
+                        <i class="fas fa-heart mr-1"></i> 1.2k
+                    </span>
+                    <span class="text-white font-semibold">
+                        <i class="fas fa-comment mr-1"></i> 42
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="aspect-square bg-gray-800 relative group overflow-hidden">
+            <img src="https://images.pexels.com/photos/774731/pexels-photo-774731.jpeg" 
+                 class="w-full h-full object-cover group-hover:opacity-50 transition-opacity">
+            <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                <div class="flex items-center space-x-4">
+                    <span class="text-white font-semibold">
+                        <i class="fas fa-heart mr-1"></i> 876
+                    </span>
+                    <span class="text-white font-semibold">
+                        <i class="fas fa-comment mr-1"></i> 31
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="aspect-square bg-gray-800 relative group overflow-hidden">
+            <img src="https://images.pexels.com/photos/982865/pexels-photo-982865.jpeg" 
+                 class="w-full h-full object-cover group-hover:opacity-50 transition-opacity">
+            <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                <div class="flex items-center space-x-4">
+                    <span class="text-white font-semibold">
+                        <i class="fas fa-heart mr-1"></i> 543
+                    </span>
+                    <span class="text-white font-semibold">
+                        <i class="fas fa-comment mr-1"></i> 19
+                    </span>
+                </div>
+            </div>
+        </div>
+        <!-- More posts would go here -->
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="fixed bottom-0 left-0 right-0 bg-gray-900 border-t border-gray-800 py-3 px-6 flex justify-around">
+        <a href="dashboard.html" class="text-gray-400 hover:text-white">
+            <i class="fas fa-home text-xl"></i>
+        </a>
+        <a href="#" class="text-gray-400 hover:text-white">
+            <i class="fas fa-search text-xl"></i>
+        </a>
+        <a href="#" class="text-gray-400 hover:text-white">
+            <i class="fas fa-plus-square text-xl"></i>
+        </a>
+        <a href="#" class="text-gray-400 hover:text-white">
+            <i class="fas fa-heart text-xl"></i>
+        </a>
+        <a href="profile.html" class="text-pink-500">
+            <i class="fas fa-user text-xl"></i>
+        </a>
+    </nav>
+</body>
+</html>
