@@ -1,178 +1,306 @@
 // Game Constants
 const GRAVITY = 0.5;
-const JUMP_FORCE = -8;
-const TREE_SPEED = 2;
-const TREE_GAP = 120;
-const TREE_FREQUENCY = 1500; // ms between trees
-const MONKEY_WIDTH = 50;
-const MONKEY_HEIGHT = 50;
+const JUMP_FORCE = -10;
+const OBSTACLE_SPEED = 3;
+const OBSTACLE_GAP = 150;
+const OBSTACLE_FREQUENCY = 1200;
+const SOLDIER_WIDTH = 60;
+const SOLDIER_HEIGHT = 80;
+const BACKGROUND_SCROLL_SPEED = 0.2;
 
 // Game State
 let gameRunning = false;
 let score = 0;
-let highScore = localStorage.getItem('flappyMonkeyHighScore') || 0;
-let lastTreeTime = 0;
+let highScore = localStorage.getItem('codVerticalOpsHighScore') || 0;
+let lastObstacleTime = 0;
+let backgroundX = 0;
+let difficultyLevel = 1;
+let currentRank = 'Private';
 
 // DOM Elements
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 const startScreen = document.getElementById('startScreen');
 const highScoreDisplay = document.getElementById('highScoreDisplay');
+const gameOverScreen = document.getElementById('gameOverScreen');
+const finalScoreDisplay = document.getElementById('finalScore');
+const startButton = document.getElementById('startButton');
+const retryButton = document.getElementById('retryButton');
 
 // Game Objects
-const monkey = {
+const soldier = {
     x: 50,
     y: canvas.height / 2,
-    width: MONKEY_WIDTH,
-    height: MONKEY_HEIGHT,
+    width: SOLDIER_WIDTH,
+    height: SOLDIER_HEIGHT,
     velocity: 0
 };
 
-const trees = [];
+const obstacles = [];
 
-// Image Assets
-const monkeyImg = new Image();
-monkeyImg.src = 'https://images.pexels.com/photos/1591776/pexels-photo-1591776.jpeg?auto=compress&cs=tinysrgb&w=50&h=50&dpr=2';
+// Military-themed colors
+const COLORS = {
+  SOLDIER: '#8B4513', // Military brown
+  SOLDIER_HEAD: '#5C4033',
+  SOLDIER_VEST: '#654321',
+  OBSTACLE: '#556B2F', // Camo green
+  OBSTACLE_DETAIL: '#6B8E23',
+  BACKGROUND: '#36454F', // Charcoal gray
+  SKY: '#4682B4', // Steel blue
+  TEXT: '#00FF00', // Military green
+  EXPLOSION: '#FF4500' // Orange-red
+};
 
-const treeTopImg = new Image();
-treeTopImg.src = 'https://images.pexels.com/photos/326939/pexels-photo-326939.jpeg?auto=compress&cs=tinysrgb&w=100&h=200&dpr=2';
+// Draw functions
+function drawSoldier() {
+    // Body
+    ctx.fillStyle = COLORS.SOLDIER;
+    ctx.fillRect(soldier.x, soldier.y + 20, soldier.width, soldier.height - 20);
+    
+    // Vest
+    ctx.fillStyle = COLORS.SOLDIER_VEST;
+    ctx.fillRect(soldier.x + 10, soldier.y + 30, soldier.width - 20, soldier.height - 40);
+    
+    // Head
+    ctx.fillStyle = COLORS.SOLDIER_HEAD;
+    ctx.beginPath();
+    ctx.arc(soldier.x + soldier.width/2, soldier.y + 15, 15, 0, Math.PI*2);
+    ctx.fill();
+    
+    // Gun
+    ctx.fillStyle = '#333';
+    ctx.fillRect(soldier.x + soldier.width - 10, soldier.y + 30, 20, 5);
+}
 
-const treeBottomImg = new Image();
-treeBottomImg.src = 'https://images.pexels.com/photos/326939/pexels-photo-326939.jpeg?auto=compress&cs=tinysrgb&w=100&h=200&dpr=2';
+function drawObstacles() {
+    obstacles.forEach(obstacle => {
+        // Main obstacle
+        ctx.fillStyle = COLORS.OBSTACLE;
+        ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
+        
+        // Camo pattern
+        ctx.fillStyle = COLORS.OBSTACLE_DETAIL;
+        for (let i = 0; i < 8; i++) {
+            const x = obstacle.x + Math.random() * obstacle.width;
+            const y = obstacle.y + Math.random() * obstacle.height;
+            const size = Math.random() * 10 + 5;
+            ctx.beginPath();
+            ctx.arc(x, y, size, 0, Math.PI*2);
+            ctx.fill();
+        }
+    });
+}
 
 // Initialize Game
 function init() {
     highScoreDisplay.textContent = highScore;
     document.addEventListener('keydown', handleKeyDown);
-    canvas.addEventListener('click', handleClick);
+    startButton.addEventListener('click', startGame);
+    retryButton.addEventListener('click', () => {
+        startGame();
+        gameOverScreen.classList.add('hidden');
+    });
     requestAnimationFrame(gameLoop);
 }
 
 // Game Loop
 function gameLoop(timestamp) {
+    // Draw background with parallax effect
+    backgroundX -= BACKGROUND_SCROLL_SPEED;
+    if (backgroundX < -canvas.width) backgroundX = 0;
+    
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     
+    // Draw sky gradient
+    const skyGradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+    skyGradient.addColorStop(0, COLORS.SKY);
+    skyGradient.addColorStop(1, COLORS.BACKGROUND);
+    ctx.fillStyle = skyGradient;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    // Draw ground
+    ctx.fillStyle = '#2F4F4F';
+    ctx.fillRect(0, canvas.height - 50, canvas.width, 50);
+    
     if (gameRunning) {
-        updateMonkey();
-        updateTrees(timestamp);
+        updateSoldier();
+        updateObstacles(timestamp);
         checkCollisions();
-        drawScore();
+        drawUI();
     }
 
-    drawMonkey();
-    drawTrees();
+    drawSoldier();
+    drawObstacles();
     requestAnimationFrame(gameLoop);
 }
 
 // Game Functions
-function updateMonkey() {
-    monkey.velocity += GRAVITY;
-    monkey.y += monkey.velocity;
+function updateSoldier() {
+    soldier.velocity += GRAVITY;
+    soldier.y += soldier.velocity;
     
     // Boundary check
-    if (monkey.y < 0) monkey.y = 0;
-    if (monkey.y > canvas.height - monkey.height) {
-        monkey.y = canvas.height - monkey.height;
+    if (soldier.y < 0) {
+        soldier.y = 0;
+        soldier.velocity = 0;
+    }
+    if (soldier.y > canvas.height - soldier.height) {
+        soldier.y = canvas.height - soldier.height;
         gameOver();
     }
 }
 
-function updateTrees(timestamp) {
-    // Add new trees
-    if (timestamp - lastTreeTime > TREE_FREQUENCY) {
-        addTree();
-        lastTreeTime = timestamp;
+function updateObstacles(timestamp) {
+    // Add new obstacles
+    if (timestamp - lastObstacleTime > OBSTACLE_FREQUENCY) {
+        addObstacle();
+        lastObstacleTime = timestamp;
     }
 
-    // Move trees
-    for (let i = trees.length - 1; i >= 0; i--) {
-        trees[i].x -= TREE_SPEED;
+    // Move obstacles
+    for (let i = obstacles.length - 1; i >= 0; i--) {
+        obstacles[i].x -= OBSTACLE_SPEED;
         
-        // Remove off-screen trees
-        if (trees[i].x + trees[i].width < 0) {
-            trees.splice(i, 1);
+        // Remove off-screen obstacles
+        if (obstacles[i].x + obstacles[i].width < 0) {
+            obstacles.splice(i, 1);
         }
     }
 }
 
-function addTree() {
-    const gapPosition = Math.random() * (canvas.height - TREE_GAP - 100) + 50;
+function addObstacle() {
+    const gapPosition = Math.random() * (canvas.height - OBSTACLE_GAP - 200) + 100;
     
-    trees.push({
+    obstacles.push({
         x: canvas.width,
         y: 0,
-        width: 60,
+        width: 80,
         height: gapPosition,
         passed: false
     });
     
-    trees.push({
+    obstacles.push({
         x: canvas.width,
-        y: gapPosition + TREE_GAP,
-        width: 60,
-        height: canvas.height - gapPosition - TREE_GAP,
+        y: gapPosition + OBSTACLE_GAP,
+        width: 80,
+        height: canvas.height - gapPosition - OBSTACLE_GAP,
         passed: false
     });
 }
 
 function checkCollisions() {
-    trees.forEach(tree => {
+    obstacles.forEach(obstacle => {
         if (
-            monkey.x < tree.x + tree.width &&
-            monkey.x + monkey.width > tree.x &&
-            monkey.y < tree.y + tree.height &&
-            monkey.y + monkey.height > tree.y
+            soldier.x < obstacle.x + obstacle.width &&
+            soldier.x + soldier.width > obstacle.x &&
+            soldier.y < obstacle.y + obstacle.height &&
+            soldier.y + soldier.height > obstacle.y
         ) {
+            explosionEffect(soldier.x, soldier.y);
             gameOver();
         }
         
         // Score increment
-        if (!tree.passed && tree.x + tree.width < monkey.x) {
-            tree.passed = true;
+        if (!obstacle.passed && obstacle.x + obstacle.width < soldier.x) {
+            obstacle.passed = true;
             score++;
+            updateRank();
             if (score > highScore) {
                 highScore = score;
-                localStorage.setItem('flappyMonkeyHighScore', highScore);
+                localStorage.setItem('codVerticalOpsHighScore', highScore);
                 highScoreDisplay.textContent = highScore;
             }
         }
     });
 }
 
-function drawMonkey() {
-    if (monkeyImg.complete) {
-        ctx.drawImage(monkeyImg, monkey.x, monkey.y, monkey.width, monkey.height);
-    } else {
-        ctx.fillStyle = '#8B4513';
-        ctx.fillRect(monkey.x, monkey.y, monkey.width, monkey.height);
-    }
+function drawSoldier() {
+    // Body
+    ctx.fillStyle = COLORS.SOLDIER;
+    ctx.fillRect(soldier.x, soldier.y + 20, soldier.width, soldier.height - 20);
+    
+    // Vest
+    ctx.fillStyle = COLORS.SOLDIER_VEST;
+    ctx.fillRect(soldier.x + 10, soldier.y + 30, soldier.width - 20, soldier.height - 40);
+    
+    // Head
+    ctx.fillStyle = COLORS.SOLDIER_HEAD;
+    ctx.beginPath();
+    ctx.arc(soldier.x + soldier.width/2, soldier.y + 15, 15, 0, Math.PI*2);
+    ctx.fill();
+    
+    // Gun
+    ctx.fillStyle = '#333';
+    ctx.fillRect(soldier.x + soldier.width - 10, soldier.y + 30, 20, 5);
 }
 
-function drawTrees() {
-    trees.forEach(tree => {
-        if (tree.y === 0 && treeTopImg.complete) {
-            ctx.drawImage(treeTopImg, tree.x, tree.y, tree.width, tree.height);
-        } else if (treeBottomImg.complete) {
-            ctx.drawImage(treeBottomImg, tree.x, tree.y, tree.width, tree.height);
-        } else {
-            ctx.fillStyle = '#228B22';
-            ctx.fillRect(tree.x, tree.y, tree.width, tree.height);
+function drawObstacles() {
+    obstacles.forEach(obstacle => {
+        // Main obstacle
+        ctx.fillStyle = COLORS.OBSTACLE;
+        ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
+        
+        // Camo pattern
+        ctx.fillStyle = COLORS.OBSTACLE_DETAIL;
+        for (let i = 0; i < 8; i++) {
+            const x = obstacle.x + Math.random() * obstacle.width;
+            const y = obstacle.y + Math.random() * obstacle.height;
+            const size = Math.random() * 10 + 5;
+            ctx.beginPath();
+            ctx.arc(x, y, size, 0, Math.PI*2);
+            ctx.fill();
         }
     });
 }
 
-function drawScore() {
-    ctx.fillStyle = '#000';
-    ctx.font = '24px Poppins';
-    ctx.fillText(`Score: ${score}`, 20, 40);
+function drawUI() {
+    ctx.fillStyle = '#00ff00';
+    ctx.font = '24px Roboto Condensed';
+    ctx.fillText(`SCORE: ${score}`, 20, 40);
+    
+    ctx.fillStyle = '#ffffff';
+    ctx.font = '18px Roboto Condensed';
+    ctx.fillText(`RANK: ${currentRank}`, 20, 70);
+}
+
+function explosionEffect(x, y) {
+    // Explosion core
+    const gradient = ctx.createRadialGradient(
+        x + soldier.width/2, y + soldier.height/2, 0,
+        x + soldier.width/2, y + soldier.height/2, 40
+    );
+    gradient.addColorStop(0, COLORS.EXPLOSION);
+    gradient.addColorStop(1, 'rgba(0,0,0,0)');
+    
+    ctx.fillStyle = gradient;
+    ctx.beginPath();
+    ctx.arc(x + soldier.width/2, y + soldier.height/2, 40, 0, Math.PI*2);
+    ctx.fill();
+    
+    // Shockwave
+    ctx.strokeStyle = 'rgba(255,255,255,0.7)';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.arc(x + soldier.width/2, y + soldier.height/2, 45, 0, Math.PI*2);
+    ctx.stroke();
+}
+
+function updateRank() {
+    if (score >= 30) currentRank = 'General';
+    else if (score >= 20) currentRank = 'Colonel';
+    else if (score >= 15) currentRank = 'Major';
+    else if (score >= 10) currentRank = 'Captain';
+    else if (score >= 5) currentRank = 'Sergeant';
+    else currentRank = 'Private';
 }
 
 function startGame() {
     gameRunning = true;
     score = 0;
-    trees.length = 0;
-    monkey.y = canvas.height / 2;
-    monkey.velocity = 0;
+    currentRank = 'Private';
+    obstacles.length = 0;
+    soldier.y = canvas.height / 2;
+    soldier.velocity = 0;
     startScreen.style.opacity = '0';
     setTimeout(() => {
         startScreen.style.display = 'none';
@@ -181,9 +309,10 @@ function startGame() {
 
 function gameOver() {
     gameRunning = false;
-    startScreen.style.display = 'flex';
+    finalScoreDisplay.textContent = score;
+    gameOverScreen.style.display = 'flex';
     setTimeout(() => {
-        startScreen.style.opacity = '1';
+        gameOverScreen.style.opacity = '1';
     }, 10);
 }
 
@@ -193,16 +322,8 @@ function handleKeyDown(e) {
         if (!gameRunning) {
             startGame();
         } else {
-            monkey.velocity = JUMP_FORCE;
+            soldier.velocity = JUMP_FORCE;
         }
-    }
-}
-
-function handleClick() {
-    if (!gameRunning) {
-        startGame();
-    } else {
-        monkey.velocity = JUMP_FORCE;
     }
 }
 
